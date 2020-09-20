@@ -1,7 +1,4 @@
 // +build ignore
-// wget --no-check-certificate --quiet  --method POST   --timeout=0  --header 'Content-Type: application/json'  --body-data '[ {"phrase": "test"}, {"phrase": "test_2"}]'    'http://localhost:8080/get-phrase-hash'
-
-
 
 package main
 
@@ -21,6 +18,10 @@ type Hashed struct{
 const SizeOfInt64 = 8
 
 func handler(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "POST" {
+        http.Error(w, "{\"error\": \"Only POST allowed\"}", http.StatusMethodNotAllowed)
+        return
+    }
     var hashed_phrases []Hashed
     if err := json.NewDecoder(r.Body).Decode(&hashed_phrases); err != nil {
         log.Println(err)
