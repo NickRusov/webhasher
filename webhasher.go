@@ -42,6 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+    log.Println("Web hasher started")
     http.HandleFunc("/get-phrase-hash/", handler)
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
